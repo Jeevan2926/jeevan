@@ -1,0 +1,41 @@
+use std::io;
+
+fn main() {
+    println!("Simple Rust Calculator");
+
+    let mut input = String::new();
+    println!("Enter expression (e.g. 5 + 3):");
+
+    io::stdin().read_line(&mut input).expect("Failed to read input");
+    let tokens: Vec<&str> = input.trim().split_whitespace().collect();
+
+    if tokens.len() != 3 {
+        println!("Invalid input format.");
+        return;
+    }
+
+    let a: f64 = tokens[0].parse().unwrap_or(0.0);
+    let op = tokens[1];
+    let b: f64 = tokens[2].parse().unwrap_or(0.0);
+
+    let result = match op {
+        "+" => a + b,
+        "-" => a - b,
+        "*" | "x" => a * b,
+        "/" => {
+            if b == 0.0 {
+                println!("Cannot divide by zero.");
+                return;
+            } else {
+                a / b
+            }
+        }
+        _ => {
+            println!("Unsupported operator.");
+            return;
+        }
+    };
+
+    println!("Result: {}", result);
+}
+
